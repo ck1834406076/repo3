@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.StudentMapper">
+<select id="query"  parameterType="pojo.Student" resultType="pojo.Student">
+    SELECT s.*,g.gradename
+    FROM student s
+    left join grade g
+    on s.gradeid=g.gradeId where 1=1
+    <if test="id!=null and id!=0">
+        and id=#{id}
+    </if>
+    <if test="sname!=null and !''.equals(sname)">
+        and sname like "%"#{sname}"%"
+    </if>
+    order by id
+</select>
+    <delete id="delete" >
+        delete  from student where id=#{id}
+    </delete>
+    <insert id="add" parameterType="pojo.Student">
+        insert into student (sname,age,gender,address,gradeid) values (#{sname},#{age},#{gender},#{address},#{gradeid})
+    </insert>
+    <update id="update" parameterType="pojo.Student">
+        update student set sname=#{sname},age=#{age},gender=#{gender},address=#{address},gradeid=#{gradeid} where id=#{id}
+    </update>
+</mapper>
